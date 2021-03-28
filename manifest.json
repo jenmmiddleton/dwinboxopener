@@ -1,15 +1,9 @@
-  
 {
   "name": "DW Inbox Opener",
   "action": {},
   "manifest_version": 3,
   "version": "0.1",
   "description": "Opens X number of new tabs from the Dreamwidth inbox",
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "tabs"
-  ],
   "background": {
     "service_worker": "background.js"
   }
