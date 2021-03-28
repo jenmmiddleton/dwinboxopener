@@ -6,7 +6,7 @@
   "description": "Opens X number of new tabs from the Dreamwidth inbox",
   "permissions": [
     "activeTab",
-    "scripting"
+    "tabs"
   ],
   "background": {
     "service_worker": "background.js"
