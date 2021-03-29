@@ -10,5 +10,11 @@
   ],
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.dreamwidth.org/inbox/?view=unread"],
+      "js": ["openParentLink.js"]
+    }
+  ]
 }
