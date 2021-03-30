@@ -13,7 +13,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.dreamwidth.org/inbox/?page=*.&view=unread"],
+      "matches": ["*://*.dreamwidth.org/inbox/?page=*view=unread"],
       "js": ["openParentLink.js"]
     }
   ]
