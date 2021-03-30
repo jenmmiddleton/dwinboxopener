@@ -10,15 +10,15 @@ if (document.getElementById('NoMessageTD')) {
     for ( ; index <= max_index; index++) {
         try {
           document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a")[2].click();
-          console.log(`Clicked parent link`);
-          setTimeout(() => {  window.open(inbox_unread_url, '_blank'); }, 900);
+          setTimeout(() => {  console.log(`Clicked parent link`); }, 900);
+          window.open(inbox_unread_url, '_blank');
           break;
         } catch ( errParentlink ) {
           if (errParentlink instanceof TypeError) {
             try {
               document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a")[1].click();
-              console.log(`Clicked an Entry or top-level link`);
-              setTimeout(() => {  window.open(inbox_unread_url, '_blank'); }, 900);
+              setTimeout(() => { console.log(`Clicked an Entry or top-level link`); }, 900);
+              window.open(inbox_unread_url, '_blank');
               break;
             } catch ( errEntryLink) {
               if (errEntryLink instanceof TypeError) {
