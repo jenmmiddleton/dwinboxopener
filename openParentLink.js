@@ -29,7 +29,7 @@ if (document.getElementById('NoMessageTD')) {
         }
         if (index > max_index) {
           console.log(`No more unread tags on current page`);
-          var next_button = document.getElementsById('Page_Next_1');
+          var next_button = document.getElementById('Page_Next_1');
           if (next_button.disabled) {
               console.log(`This is the last page of the inbox`);
               window.open(main_inbox_url, '_self');
