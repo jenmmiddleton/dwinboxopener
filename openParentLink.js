@@ -7,6 +7,7 @@ var max_tags_value = localStorage.getItem(max_tags_key);
 console.log(`Max Tags value from localStorage: ${max_tags_value}`);
 if (!(max_tags_value) || isNaN(max_tags_value)) {
     max_tags_value = prompt("Please enter the max number of Tags to open: ", 5);
+    localStorage.setItem(max_tags_key, parseInt(max_tags_value));
 }
 
 if (document.getElementById('NoMessageTD')) {
