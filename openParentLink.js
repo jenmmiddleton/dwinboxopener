@@ -4,8 +4,10 @@ var next_button = document.getElementById('Page_Next_1');
 
 var max_tags_key = "max_tags";
 var max_tags_value = localStorage.getItem(max_tags_key);
-if (max_tags_value === null) {
+console.log(`Max Tags value from localStorage: ${max_tags_value}`);
+if (!(max_tags_value) || isNaN(max_tags_value)) {
     max_tags_value = prompt("Please enter the max number of Tags to open: ", 5);
+    localStorage.setItem(max_tags_key, parseInt(max_tags_value));
 }
 
 if (document.getElementById('NoMessageTD')) {
@@ -28,6 +30,7 @@ if (document.getElementById('NoMessageTD')) {
     } else {
         var index = 0;
         var max_index = Math.min(max_tags_value, user_elements.length);
+        console.log(`Max index: ${max_index}`);
         for ( ; index <= max_index; index++) {
             try {
                 var actions_area = user_elements[index].getElementsByClassName('actions');
@@ -46,7 +49,7 @@ if (document.getElementById('NoMessageTD')) {
                   window.open(inbox_unread_url, '_blank');
                   break;
 
-                } else {
+                } else if (actions_links[2].href.includes("html")) {
 
                   actions_links[2].click();
                   setTimeout(() => { console.log(`Clicked parent link`); }, 900);
