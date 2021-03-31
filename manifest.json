@@ -1,7 +1,7 @@
 {
   "name": "DW Inbox Opener",
   "manifest_version": 3,
-  "version": "1.0",
+  "version": "1.0.1",
   "action": {
     "default_icon": {
       "16": "icon16.png",
