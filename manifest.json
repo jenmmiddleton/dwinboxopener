@@ -1,9 +1,14 @@
 {
   "name": "DW Inbox Opener",
-  "action": {},
   "manifest_version": 3,
-  "version": "0.1",
-  "description": "Opens X number of new tabs from the Dreamwidth inbox",
+  "version": "1.0",
+  "action": {
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png"
+    }
+  },
+  "description": "Opens X number of unread notifications from the Dreamwidth inbox",
   "permissions": [
     "activeTab",
     "tabs"
