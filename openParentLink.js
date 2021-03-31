@@ -28,6 +28,7 @@ if (document.getElementById('NoMessageTD')) {
     } else {
         var index = 0;
         var max_index = Math.min(max_tags_value, user_elements.length);
+        console.log(`Max index: ${max_index}`);
         for ( ; index <= max_index; index++) {
             try {
                 var actions_area = user_elements[index].getElementsByClassName('actions');
@@ -46,7 +47,7 @@ if (document.getElementById('NoMessageTD')) {
                   window.open(inbox_unread_url, '_blank');
                   break;
 
-                } else if (String(actions_links[2].href).includes("html")) {
+                } else if (actions_links[2].href.includes("html")) {
 
                   actions_links[2].click();
                   setTimeout(() => { console.log(`Clicked parent link`); }, 900);
