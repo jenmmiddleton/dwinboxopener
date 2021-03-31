@@ -1,34 +1,53 @@
 var main_inbox_url = "https://www.dreamwidth.org/inbox/";
 var inbox_unread_url = window.location.href;
-var max_index = 10;
+var max_index = 15;
+
+var max_tags_key = "max_tags";
+var max_tags_value = localStorage.getItem(max_tags_key);
+if (max_tags_value === null) {
+    max_tags_value = prompt("Please enter the max number of Tags to open: ", 5);
+}
 
 if (document.getElementById('NoMessageTD')) {
-  console.log(`No unread tags`);
   window.open(main_inbox_url, '_self');
+  console.log(`No unread tags`);
+} else if (parseInt(max_tags_value) === 0) {
+  setTimeout(() => { window.open(main_inbox_url, '_self'); }, 900);
+  console.log(`Maximum number of open tags reached.`);
+  localStorage.removeItem(max_tags_key);
 } else {
     var index = 0;
     for ( ; index <= max_index; index++) {
-        try {
-          document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a")[2].click();
-          setTimeout(() => {  console.log(`Clicked parent link`); }, 900);
+        var actions_links = document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a");
+
+        if (actions_links === null) {
+          console.log(`This is either a Message, a Circle Update, a Site Notice, Delete notifications, or an Unauthorized comment.`);
+        } else if (actions_links.length === 2) {
+
+          actions_links[1].click();
+          setTimeout(() => { console.log(`Clicked an Entry or top-level link`); }, 900);
+          localStorage.removeItem(max_tags_key);
+          var new_max_tags = parseInt(max_tags_value) - 1;
+          localStorage.setItem(max_tags_key, new_max_tags);
+          console.log(`New Max Tags: ${new_max_tags}`);
           window.open(inbox_unread_url, '_blank');
           break;
-        } catch ( errParentlink ) {
-          if (errParentlink instanceof TypeError) {
-            try {
-              document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a")[1].click();
-              setTimeout(() => { console.log(`Clicked an Entry or top-level link`); }, 900);
-              window.open(inbox_unread_url, '_blank');
-              break;
-            } catch ( errEntryLink) {
-              if (errEntryLink instanceof TypeError) {
-                console.log(`This is either a Message, a Circle Update, a Site Notice, Delete notifications, or an Unauthorized comment.`)
-              }
-            }
-          }
+
+        } else {
+
+          actions_links[2].click();
+          setTimeout(() => { console.log(`Clicked parent link`); }, 900);
+          localStorage.removeItem(max_tags_key);
+          var new_max_tags = parseInt(max_tags_value) - 1;
+          localStorage.setItem(max_tags_key, new_max_tags);
+          console.log(`New Max Tags: ${new_max_tags}`);
+          window.open(inbox_unread_url, '_blank');
+          break;
+
         }
     }
     if (index > max_index) {
+
       console.log(`No more unread tags on current page`);
       var next_button = document.getElementById('Page_Next_1');
       if (next_button.disabled) {
@@ -37,5 +56,6 @@ if (document.getElementById('NoMessageTD')) {
       } else {
           next_button.click();
       }
+
     }
 }
