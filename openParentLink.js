@@ -1,6 +1,5 @@
 var main_inbox_url = "https://www.dreamwidth.org/inbox/";
 var inbox_unread_url = window.location.href;
-var max_index = 15;
 
 var max_tags_key = "max_tags";
 var max_tags_value = localStorage.getItem(max_tags_key);
@@ -16,9 +15,11 @@ if (document.getElementById('NoMessageTD')) {
   console.log(`Maximum number of open tags reached.`);
   localStorage.removeItem(max_tags_key);
 } else {
+    var user_elements = document.getElementsByClassName('InboxItem_Content usercontent');
     var index = 0;
+    var max_index = Math.min(max_tags_value, user_elements.length);
     for ( ; index <= max_index; index++) {
-        var actions_links = document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a");
+        var actions_links = user_elements[index].getElementsByClassName('actions')[0].getElementsByTagName("a");
 
         if (actions_links === null) {
           console.log(`This is either a Message, a Circle Update, a Site Notice, Delete notifications, or an Unauthorized comment.`);
