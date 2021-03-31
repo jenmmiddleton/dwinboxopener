@@ -4,7 +4,8 @@ var next_button = document.getElementById('Page_Next_1');
 
 var max_tags_key = "max_tags";
 var max_tags_value = localStorage.getItem(max_tags_key);
-if (max_tags_value === null) {
+console.log(`Max Tags value from localStorage: ${max_tags_value}`);
+if (!(max_tags_value) || isNaN(max_tags_value)) {
     max_tags_value = prompt("Please enter the max number of Tags to open: ", 5);
 }
 
