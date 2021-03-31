@@ -46,7 +46,7 @@ if (document.getElementById('NoMessageTD')) {
                   window.open(inbox_unread_url, '_blank');
                   break;
 
-                } else {
+                } else if (String(actions_links[2].href).includes("html")) {
 
                   actions_links[2].click();
                   setTimeout(() => { console.log(`Clicked parent link`); }, 900);
