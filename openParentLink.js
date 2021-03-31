@@ -1,51 +1,41 @@
-var inbox_unread_url = "https://www.dreamwidth.org/inbox/?view=unread";
+var main_inbox_url = "https://www.dreamwidth.org/inbox/";
+var inbox_unread_url = window.location.href;
+var max_index = 10;
 
-var allCookies;
-var maxTags;
-var originalMaxTags;
-var tag_name = "maxTags=";
-var allCookies = decodeURIComponent(document.cookie);
-var ca = allCookies.split(';');
-for(var i = 0; i <ca.length; i++) {
-  var c = ca[i];
-  while (c.charAt(0) == ' ') {
-    c = c.substring(1);
-  }
-  if (c.indexOf(tag_name) == 0) {
-    originalMaxTags = c.substring(tag_name.length, c.length);
-  }
-}
-
-if (originalMaxTags) {
-  maxTags = originalMaxTags;
-  console.log(`Max tags: ` + maxTags)
+if (document.getElementById('NoMessageTD')) {
+  console.log(`No unread tags`);
+  window.open(main_inbox_url, '_self');
 } else {
-  maxTags = prompt("Please enter the max number of Tags to open: ", 25);
-}
-
-if (parseInt(maxTags) > 0) {
-  try {
-    document.getElementsByClassName('InboxItem_Content usercontent')[0].getElementsByClassName('actions')[0].getElementsByTagName("a")[2].click();
-    console.log(`Clicked link`);
-
-    var newValue = parseInt(maxTags) - 1;
-    var oldStr = "maxTags=" + maxTags;
-    var newStr = "maxTags=" + newValue;
-    if (originalMaxTags) {
-      document.cookie = String(document.cookie).replace(oldStr, newStr);
-    } else {
-      var thirtyDays = 1000*60*60*24*30;
-      var expires = new Date((new Date()).valueOf() + thirtyDays);
-      var metadata = ";visited=true;expires=" + expires.toUTCString();
-      document.cookie = document.cookie + newStr + metadata;
+    var index = 0;
+    for ( ; index <= max_index; index++) {
+        try {
+          document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a")[2].click();
+          setTimeout(() => {  console.log(`Clicked parent link`); }, 900);
+          window.open(inbox_unread_url, '_blank');
+          break;
+        } catch ( errParentlink ) {
+          if (errParentlink instanceof TypeError) {
+            try {
+              document.getElementsByClassName('InboxItem_Content usercontent')[index].getElementsByClassName('actions')[0].getElementsByTagName("a")[1].click();
+              setTimeout(() => { console.log(`Clicked an Entry or top-level link`); }, 900);
+              window.open(inbox_unread_url, '_blank');
+              break;
+            } catch ( errEntryLink) {
+              if (errEntryLink instanceof TypeError) {
+                console.log(`This is either a Message, a Circle Update, a Site Notice, Delete notifications, or an Unauthorized comment.`)
+              }
+            }
+          }
+        }
     }
-    window.open(inbox_unread_url, '_blank');
-  } catch ( err ) {
-    if (err instanceof TypeError) {
-      console.log(`No unread tags`);
-      setTimeout(() => {  window.close(); }, 1800);
+    if (index > max_index) {
+      console.log(`No more unread tags on current page`);
+      var next_button = document.getElementById('Page_Next_1');
+      if (next_button.disabled) {
+          console.log(`This is the last page of the inbox`);
+          window.open(main_inbox_url, '_self');
+      } else {
+          next_button.click();
+      }
     }
-  }
-} else {
-  console.log(`Max number of open tags reached.`);
 }
