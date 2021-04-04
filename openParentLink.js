@@ -24,6 +24,7 @@ if (document.getElementById('NoMessageTD')) {
         if (next_button.disabled) {
             console.log(`This is the last page of the inbox`);
             window.open(main_inbox_url, '_self');
+            localStorage.removeItem(max_tags_key);
         } else {
             next_button.click();
         }
@@ -31,7 +32,7 @@ if (document.getElementById('NoMessageTD')) {
         var index = 0;
         var max_index = Math.min(max_tags_value, user_elements.length);
         console.log(`Max index: ${max_index}`);
-        for ( ; index <= max_index; index++) {
+        for ( ; index < max_index; index++) {
             try {
                 var actions_area = user_elements[index].getElementsByClassName('actions');
                 var actions_links = actions_area[0].getElementsByTagName("a");
@@ -65,12 +66,13 @@ if (document.getElementById('NoMessageTD')) {
                 console.log(`There are no links in the action area to click.`)
             }
         }
-        if (index > max_index) {
+        if (index >= max_index) {
 
           console.log(`No more unread tags on current page`);
           if (next_button.disabled) {
               console.log(`This is the last page of the inbox`);
               window.open(main_inbox_url, '_self');
+              localStorage.removeItem(max_tags_key);
           } else {
               next_button.click();
           }
